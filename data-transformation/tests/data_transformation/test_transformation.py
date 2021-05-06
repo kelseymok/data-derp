@@ -497,6 +497,58 @@ class TestTransformation(TestPySpark):
         assert list(output_pandas.columns) == expected_columns # check column names and order
         assert output_pandas.equals(expected_pandas) # check contents and data types
 
+    def test_boss_battle_the_revenge(self):
+        """Tests the boss_battle method"""
+        input_pandas = pd.DataFrame({
+            "Year": [1997, 2019, 2020, 2022, 2016, 2020, 2022, 2023, 2024],
+            "Country" : [
+                "United States",
+                "Australia", "Australia", "Australia",
+                "New Zealand", "New Zealand", "New Zealand", "New Zealand", "New Zealand"],
+            "TotalEmissions": [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 6.5, 7.0, 8.0],
+            "PerCapitaEmissions": [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.65, 0.7, 0.8],
+            "ShareOfGlobalEmissions": [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.65, 0.7, 0.8]
+        })
+        input_schema = StructType([
+            StructField("Year", IntegerType(), True),
+            StructField("Country", StringType(), True),
+            StructField("TotalEmissions", FloatType(), True),
+            StructField("PerCapitaEmissions", FloatType(), True),
+            StructField("ShareOfGlobalEmissions", FloatType(), True)
+        ])
+        input_df = self.spark.createDataFrame(input_pandas, input_schema)
+
+        expected_columns = ["Year", "Country", "TotalEmissions"]
+        expected_pandas = pd.DataFrame({
+            "Year": pd.Series([2016, 2019, 2020, 2020, 2022, 2022, 2023, 2024], dtype=np.dtype("int32")),
+            "Country": pd.Series([
+                "New Zealand", "Australia", "Australia",
+                "New Zealand", "Australia", "New Zealand", "New Zealand", "New Zealand"], dtype=np.dtype("O")),
+            "TotalEmissions": pd.Series([np.nan, 2.0, 2.0, 6.5, 4.0, 6.5, 7.0, 7.0], dtype=np.dtype("float32"))
+        })
+        expected_pandas = self.prepare_frame(
+            expected_pandas,
+            column_order=expected_columns, # ensure column order
+            sort_keys=["Year", "Country"], # ensure row order
+        )
+        output_df = self.transformer.boss_battle(input_df)
+        output_pandas: pd.DataFrame = output_df.toPandas()
+        output_pandas = self.prepare_frame(
+            output_pandas,
+            column_order=expected_columns, # ensure column order
+            sort_keys=["Year", "Country"], # ensure row order
+        )
+        print("Schemas:")
+        print(expected_pandas.dtypes)
+        print(output_pandas.dtypes)
+        print("Contents:")
+        print(expected_pandas)
+        print(output_pandas)
+
+        assert sorted(output_pandas["Country"].unique()) == sorted(["Australia", "New Zealand"])
+        assert list(output_pandas.columns) == expected_columns # check column names and order
+        assert output_pandas.equals(expected_pandas) # check contents and data types
+
     def test_run(self, mocker: MockerFixture):
         """High level job test: count + schema checks but nothing more granular"""
 
