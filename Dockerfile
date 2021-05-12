@@ -25,5 +25,14 @@ RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add -
 RUN apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
 RUN apt-get update && apt-get install terraform
 
+# Install SAML2AWS
+RUN CURRENT_VERSION=$(curl -Ls https://api.github.com/repos/Versent/saml2aws/releases/latest | grep 'tag_name' | cut -d'v' -f2 | cut -d'"' -f1) && \
+    wget -c https://github.com/Versent/saml2aws/releases/download/v${CURRENT_VERSION}/saml2aws_${CURRENT_VERSION}_linux_amd64.tar.gz -O - | tar -xzv -C /usr/local/bin && \
+    chmod u+x /usr/local/bin/saml2aws && \
+    saml2aws --version
+
+# Install Bootstrap deps
+RUN apt-get install -y jq
+
 # Environment variables
 ENV ENVIRONMENT=local

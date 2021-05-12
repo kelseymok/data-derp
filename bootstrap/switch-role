@@ -40,3 +40,5 @@ response=$(AWS_PROFILE=${base} aws sts assume-role \
 aws configure set aws_access_key_id $(echo $response | jq -r '.Credentials.AccessKeyId') --profile "${target_profile}"
 aws configure set aws_secret_access_key $(echo $response | jq -r '.Credentials.SecretAccessKey') --profile "${target_profile}"
 aws configure set aws_session_token $(echo $response | jq -r '.Credentials.SessionToken') --profile "${target_profile}"
+
+echo "Successfully switched role to arn:aws:iam::${account}:role/${target}. Credentials saved in profile: ${target_profile}."
