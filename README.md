@@ -28,21 +28,20 @@ This repository contains the practical exercise of the Data Derp training. It co
 5. Fix the tests in `data-ingestion/` and `data-transformation` (in that order). See [Development Environment](./development-environment.md) for tips and tricks on running python/tests in the dev-container.
 
 ## Mirror the Repository
-1. Create a **PRIVATE** repo called `data-derp` in your Github account
-![mirror-repo](./assets/mirror-repo.png)
+1. Start importing a repository in your Github account:  
+![import-menu](./assets/import-menu.png)
 
-2. Duplicate this repo and push to your new private repo:
+2. Import the `https://github.com/kelseymok/data-derp` as a **PRIVATE** repo called `data-derp`: 
+![import-form](./assets/import-form.png)
+
+3. Clone the new repo locally and add the original repository as a source:
 ```bash
-git clone --bare git@github.com:kelseymok/data-derp.git
-cd data-derp.git # Yes, with the .git
-git push --mirror git@github.com:<your-username>/data-derp.git
-cd ..
-rm -rf data-derp.git
 git clone git@github.com:<your-username>/data-derp.git
+cd ./data-derp
 git remote add source git@github.com:kelseymok/data-derp.git
 ```
 
-3. To pull in new changes:
+4. To pull in new changes:
 ```bash
 git fetch source
 git rebase source/master
