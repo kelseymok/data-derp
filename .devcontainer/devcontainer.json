@@ -15,5 +15,5 @@
         "filetalls.autoSave": "afterDelay",
         "python.analysis.useImportHeuristic": true
     }, 
-    "postCreateCommand": "pip install --editable ./test-utils && pip install --editable ./data-ingestion && pip install --editable ./data-transformation"
+    "postCreateCommand": "pip install --editable ./test-utils --editable ./data-ingestion --editable ./data-transformation"
 }
