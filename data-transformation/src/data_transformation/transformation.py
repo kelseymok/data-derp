@@ -98,7 +98,7 @@ class Transformer:
             - LandAverageTemperature: float
             - LandMaxTemperature: float
             - LandMinTemperature: float
-            - LandAndOceanAverageTemperature: floats
+            - LandAndOceanAverageTemperature: float
         """
         global_emissions_temperatures = global_emissions.join(
             # TODO: Exercise
