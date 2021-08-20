@@ -393,11 +393,11 @@ class TestTransformation(TestPySpark):
     def test_reshape_europe_big_three_emissions(self):
         """Tests the reshape_europe_big_three_emissions method"""
         input_pandas = pd.DataFrame({
-                    "Year": [1999, 1999, 1999, 2020, 2020, 2021],
-                    "Country" : ["France", "Germany", "United Kingdom", "France", "Germany", "United Kingdom"],
-                    "TotalEmissions": [1.0, 2.0, 3.0, 4.0, 5.0, 6.0],
-                    "PerCapitaEmissions": [0.1, 0.2, 0.3, 0.4, 0.5, 0.6],
-                    "ShareOfGlobalEmissions": [0.33, 0.33, 0.33, 0.5, 0.5, 0.5]
+                    "Year": [1999, 1999, 1999, 2020, 2020, 2021, 2100],
+                    "Country" : ["France", "Germany", "United Kingdom", "France", "Germany", "United Kingdom", "India"],
+                    "TotalEmissions": [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0],
+                    "PerCapitaEmissions": [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7],
+                    "ShareOfGlobalEmissions": [0.33, 0.33, 0.33, 0.5, 0.5, 0.5, 1.0]
                 })
         input_schema = StructType([
             StructField("Year", IntegerType(), True),
