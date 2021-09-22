@@ -4,7 +4,7 @@ set -e
 
 script_dir=$(cd "$(dirname "$0")" ; pwd -P)
 
-REPO_NAME=$([[ $(git ls-remote --get-url origin) =~ github\.com[\/|\:](.*).git ]] && echo "${BASH_REMATCH[1]}")
+REPO_NAME=$([[ $(git ls-remote --get-url origin) =~ [\/|\:](.*).git ]] && echo "${BASH_REMATCH[1]}")
 aws_profile=data-derp
 
 create-update() {
