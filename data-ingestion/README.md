@@ -5,7 +5,7 @@ This repository creates an AWS Glue job using the logic in the `/src` directory
 It is good practice to ingest data as-is (close to) as it can be expensive to ingest all of the data for every downstream transformation. It is also easier to debug.
 
 Ingest input csv files and output them as parquet to specified locations:
-- Make sure that Spark properly uses the csv header and separator 
+- Make sure that Spark properly uses the csv header and separator
 - Make sure that column names are compatible with Apache Parquet
 
 ## Quickstart

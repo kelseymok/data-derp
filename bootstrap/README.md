@@ -1,9 +1,10 @@
 # Bootstrap
 This directory holds a single Cloudformation template to set up the following
 * A Single VPC, NAT Gateway, IG, Private/Public Subnet, VPC Endpoints to ensure private networking
-* GithubRunner attached to your specified Github repository 
+* GithubRunner attached to your specified Github repository
 * Terraform Remote State S3 Bucket and DynamoDB
 * S3 bucket containing the exercise's data to be ingested and transformed
+* Spark UI History server instance and S3 bucket to analyze Spark DAGs, stages, executor and driver utilization metrics, etc. 
 
 ## Setup
 1. [Create a Github Personal Access Token](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token) with the Repo Scope. This will be used to generate a token to register a GithubRunner.

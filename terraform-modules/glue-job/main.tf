@@ -81,7 +81,7 @@ data "aws_iam_policy_document" "kms" {
     ]
     resources = [
       "arn:aws:logs:*:*:/aws-glue/*",
-      aws_cloudwatch_log_group.this.arn
+      "${aws_cloudwatch_log_group.this.arn}:*"
     ]
   }
 }
