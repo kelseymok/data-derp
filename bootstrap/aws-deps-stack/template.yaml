@@ -480,6 +480,7 @@ Resources:
       ToPort: 443
       GroupId: !Ref RunnerSecurityGroup
       CidrIp: "0.0.0.0/0"
+
   InstanceRole:
     Type: AWS::IAM::Role
     Properties:
@@ -546,6 +547,7 @@ Resources:
     Properties:
       Roles:
         - !Ref InstanceRole
+
   Boundary:
     Type: AWS::IAM::ManagedPolicy
     #    DeletionPolicy: Retain
@@ -571,6 +573,7 @@ Resources:
             Condition:
               ForAnyValue:StringLike:
                 iam:PassedToService: "ecs-tasks.amazonaws.com"
+
   Role:
     Type: AWS::IAM::Role
     #    DeletionPolicy: Retain
@@ -701,6 +704,7 @@ Resources:
                   - "iam:GetServiceLinkedRoleDeletionStatus"
                 Resource:
                   - "*"
+
   Bucket:
     Type: AWS::S3::Bucket
     Properties:
@@ -722,6 +726,7 @@ Resources:
         BlockPublicAcls: true
         IgnorePublicAcls: true
         RestrictPublicBuckets: true
+
   Table:
     Type: AWS::DynamoDB::Table
     Properties:
@@ -740,6 +745,7 @@ Resources:
           Value: !Ref ProjectName
         - Key: Module
           Value: !Ref ModuleName
+
   DataSourceBucket:
     Type: AWS::S3::Bucket
     Properties:
@@ -759,6 +765,7 @@ Resources:
         BlockPublicAcls: true
         IgnorePublicAcls: true
         RestrictPublicBuckets: true
+
   SparkUiHistoryServerInstance:
     Type: AWS::EC2::Instance
     Properties:
@@ -893,14 +900,17 @@ Resources:
               command: !Sub |
                 curl --retry 60 --retry-delay 10 --retry-max-time 600 --retry-connrefused http://localhost:${HistoryServerPort} --insecure;
                 /opt/aws/bin/cfn-signal -e $? "${SparkUiWaitHandle}"
+
   SparkUiWaitHandle:
     Type: AWS::CloudFormation::WaitConditionHandle
+
   SparkUiWaitCondition:
     Type: AWS::CloudFormation::WaitCondition
     DependsOn: SparkUiHistoryServerInstance
     Properties:
       Handle: !Ref SparkUiWaitHandle
       Timeout: 1200
+
   SparkUiInstanceSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -952,12 +962,14 @@ Resources:
         - arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess
         - arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy
         - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+
   SparkUiHistoryServerInstanceProfile:
     Type: "AWS::IAM::InstanceProfile"
     Properties:
       Path: "/"
       Roles:
         - !Ref SparkUiHistoryServerRole
+
   SparkLogsBucket:
     Type: AWS::S3::Bucket
     Properties:
