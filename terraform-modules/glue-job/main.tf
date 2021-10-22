@@ -104,13 +104,9 @@ resource "aws_iam_policy" "glue" {
       {
         "Effect" : "Allow",
         "Action" : [
-          "ec2:DescribeSecurityGroups",
-          "ec2:DescribeSubnets",
-          "ec2:DescribeVpcAttribute",
           "iam:ListRolePolicies",
           "iam:GetRole",
-          "iam:GetRolePolicy",
-          "cloudwatch:PutMetricData"
+          "iam:GetRolePolicy"
         ],
         "Resource" : [
           "*"
@@ -121,7 +117,8 @@ resource "aws_iam_policy" "glue" {
         "Action" : [
           "s3:GetBucketLocation",
           "s3:ListBucket",
-          "s3:GetBucketAcl"
+          "s3:GetBucketAcl",
+          "cloudwatch:PutMetricData"
         ],
         "Resource" : [
           "*"
