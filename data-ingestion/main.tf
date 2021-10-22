@@ -1,7 +1,7 @@
 locals {
-  submodule-name   = "data-ingestion"
-  source-bucket    = "${var.project-name}-${var.module-name}-data-source"
-  target-bucket    = "${var.project-name}-${var.module-name}"
+  submodule-name    = "data-ingestion"
+  source-bucket     = "${var.project-name}-${var.module-name}-data-source"
+  target-bucket     = "${var.project-name}-${var.module-name}"
   spark-logs-bucket = "${var.project-name}-${var.module-name}-spark-logs"
 }
 module "glue-job" {

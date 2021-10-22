@@ -3,14 +3,14 @@ resource "aws_s3_bucket" "this" {
   acl           = var.bucket-acl
   force_destroy = var.force-destroy
 
-//  server_side_encryption_configuration {
-//    rule {
-//      apply_server_side_encryption_by_default {
-//        kms_master_key_id = aws_kms_key.this.arn
-//        sse_algorithm     = "aws:kms"
-//      }
-//    }
-//  }
+  //  server_side_encryption_configuration {
+  //    rule {
+  //      apply_server_side_encryption_by_default {
+  //        kms_master_key_id = aws_kms_key.this.arn
+  //        sse_algorithm     = "aws:kms"
+  //      }
+  //    }
+  //  }
 
   versioning {
     enabled = var.enable-versioning
@@ -26,13 +26,13 @@ resource "aws_s3_bucket_public_access_block" "this" {
 }
 
 resource "aws_s3_bucket_policy" "this" {
-  count = var.private ? 0 : 1
+  count      = var.private ? 0 : 1
   depends_on = [aws_s3_bucket_public_access_block.this]
-  bucket = aws_s3_bucket.this.id
+  bucket     = aws_s3_bucket.this.id
 
   policy = jsonencode({
     Version = "2012-10-17"
-    Id = "AllowPublicRead"
+    Id      = "AllowPublicRead"
     Statement = [
       {
         Sid       = "PublicReadGetObject"
