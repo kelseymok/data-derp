@@ -17,11 +17,11 @@ variable "enable-versioning" {
 }
 
 variable "access-identifiers" {
-  type = list
+  type    = list(any)
   default = null
 }
 
 variable "private" {
-  type = bool
+  type    = bool
   default = false
 }
