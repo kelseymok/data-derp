@@ -1,6 +1,6 @@
 resource "aws_glue_job" "this" {
   name     = "${var.project-name}-${var.module-name}-${var.submodule-name}"
-  role_arn = aws_iam_role.this.arn
+  role_arn = aws_iam_role.job.arn
 
   number_of_workers = 2
   worker_type       = "Standard"
@@ -31,8 +31,8 @@ data "aws_s3_bucket" "this" {
   bucket = "${var.project-name}-${var.module-name}"
 }
 
-resource "aws_iam_role" "this" {
-  name                  = "${var.project-name}-${var.module-name}-${var.submodule-name}-glue"
+resource "aws_iam_role" "job" {
+  name                  = "${var.project-name}-${var.module-name}-${var.submodule-name}-job"
   permissions_boundary  = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/${var.project-name}-${var.module-name}/${var.project-name}-${var.module-name}-delegated-boundary"
   force_detach_policies = true
   assume_role_policy    = <<EOF
@@ -52,15 +52,14 @@ resource "aws_iam_role" "this" {
 EOF
 }
 
-resource "aws_iam_role_policy_attachment" "glue-service-role" {
-  role = aws_iam_role.this.name
-  //policy_arn = "arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole"
-  policy_arn = aws_iam_policy.glue.arn
+resource "aws_iam_role_policy_attachment" "glue-job-role" {
+  role       = aws_iam_role.job.name
+  policy_arn = aws_iam_policy.job.arn
 }
 
 // TODO: This should be further locked down
 resource "aws_iam_role_policy_attachment" "s3-full-access" {
-  role       = aws_iam_role.this.name
+  role       = aws_iam_role.job.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
 }
 
@@ -73,18 +72,6 @@ data "aws_iam_policy_document" "kms" {
     ]
     resources = ["*"]
   }
-
-  statement {
-    actions = [
-      "logs:CreateLogGroup",
-      "logs:CreateLogStream",
-      "logs:PutLogEvents"
-    ]
-    resources = [
-      "arn:aws:logs:*:*:/aws-glue/*",
-      aws_cloudwatch_log_group.this.arn
-    ]
-  }
 }
 
 resource "aws_iam_policy" "kms" {
@@ -92,11 +79,11 @@ resource "aws_iam_policy" "kms" {
 }
 
 resource "aws_iam_role_policy_attachment" "kms" {
-  role       = aws_iam_role.this.id
+  role       = aws_iam_role.job.id
   policy_arn = aws_iam_policy.kms.arn
 }
 
-resource "aws_iam_policy" "glue" {
+resource "aws_iam_policy" "job" {
   name = "${var.project-name}-${var.module-name}-${var.submodule-name}-glue"
   policy = jsonencode({
     "Version" : "2012-10-17",
@@ -104,13 +91,27 @@ resource "aws_iam_policy" "glue" {
       {
         "Effect" : "Allow",
         "Action" : [
-          "s3:GetBucketLocation",
-          "s3:ListBucket",
-          "s3:GetBucketAcl",
           "cloudwatch:PutMetricData"
         ],
         "Resource" : [
           "*"
+        ],
+        "Condition" : {
+          "StringEquals" : {
+            "cloudwatch:namespace" : "Glue"
+          }
+        }
+      },
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ],
+        "Resource" : [
+          "arn:aws:logs:*:*:/aws-glue/jobs*",
+          "${aws_cloudwatch_log_group.this.arn}:*"
         ]
       }
     ]
@@ -118,3 +119,5 @@ resource "aws_iam_policy" "glue" {
 }
 
 data "aws_caller_identity" "current" {}
+
+data "aws_region" "current" {}
