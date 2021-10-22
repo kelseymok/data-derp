@@ -109,7 +109,7 @@ resource "aws_iam_policy" "glue" {
           "iam:GetRolePolicy"
         ],
         "Resource" : [
-          "*"
+          aws_iam_role.this.arn
         ]
       },
       {
