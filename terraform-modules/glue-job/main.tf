@@ -128,18 +128,6 @@ resource "aws_iam_policy" "glue" {
         "Resource" : [
           "*"
         ]
-      },
-      {
-        "Effect" : "Allow",
-        "Action" : [
-          "s3:GetObject",
-          "s3:PutObject",
-          "s3:DeleteObject"
-        ],
-        "Resource" : [
-          "arn:aws:s3:::aws-glue-*/*",
-          "arn:aws:s3:::*/*aws-glue-*/*"
-        ]
       }
     ]
   })
