@@ -1,3 +1,3 @@
-output "job_role_arn" {
-  value = aws_iam_role.job.arn
+output "job_role_name" {
+  value = aws_iam_role.job.name
 }

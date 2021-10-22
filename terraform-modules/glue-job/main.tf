@@ -57,12 +57,6 @@ resource "aws_iam_role_policy_attachment" "glue-job-role" {
   policy_arn = aws_iam_policy.job.arn
 }
 
-// TODO: This should be further locked down
-resource "aws_iam_role_policy_attachment" "s3-full-access" {
-  role       = aws_iam_role.job.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
-}
-
 resource "aws_iam_policy" "job" {
   name = "${var.project-name}-${var.module-name}-${var.submodule-name}-glue"
   policy = jsonencode({
