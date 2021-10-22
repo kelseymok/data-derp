@@ -12,10 +12,10 @@ variable "submodule-name" {
 
 variable "script-path" {
   description = "Script path in bucket (my-bucket/ingestion.py -> ingestion.py)"
-  type = string
+  type        = string
 }
 
 variable "additional-params" {
-  type = map(string)
+  type    = map(string)
   default = {}
 }

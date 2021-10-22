@@ -23,3 +23,5 @@ data-transformation/src/*.egg-info
 test-utils/build/**/*
 test-utils/dist/**/*
 test-utils/test_utils.egg-info/
+**/.terraform
+**/.terraform.lock.hcl
