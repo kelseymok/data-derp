@@ -23,7 +23,7 @@ module "glue-job" {
 }
 
 # access to S3
-resource "aws_iam_role_policy_attachment" "s3-full-access" {
+resource "aws_iam_role_policy_attachment" "s3-access" {
   role       = module.glue-job.job_role_name
   policy_arn = aws_iam_policy.s3-policy.arn
 }
