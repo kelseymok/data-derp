@@ -106,7 +106,6 @@ resource "aws_iam_policy" "glue" {
         "Action" : [
           "ec2:DescribeVpcEndpoints",
           "ec2:DescribeRouteTables",
-          "ec2:DescribeNetworkInterfaces",
           "ec2:DescribeSecurityGroups",
           "ec2:DescribeSubnets",
           "ec2:DescribeVpcAttribute",
@@ -161,25 +160,6 @@ resource "aws_iam_policy" "glue" {
         ],
         "Resource" : [
           "arn:aws:logs:*:*:/aws-glue/*"
-        ]
-      },
-      {
-        "Effect" : "Allow",
-        "Action" : [
-          "ec2:CreateTags",
-          "ec2:DeleteTags"
-        ],
-        "Condition" : {
-          "ForAllValues:StringEquals" : {
-            "aws:TagKeys" : [
-              "aws-glue-service-resource"
-            ]
-          }
-        },
-        "Resource" : [
-          "arn:aws:ec2:*:*:network-interface/*",
-          "arn:aws:ec2:*:*:security-group/*",
-          "arn:aws:ec2:*:*:instance/*"
         ]
       }
     ]
