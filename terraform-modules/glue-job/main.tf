@@ -104,8 +104,6 @@ resource "aws_iam_policy" "glue" {
       {
         "Effect" : "Allow",
         "Action" : [
-          "ec2:DescribeVpcEndpoints",
-          "ec2:DescribeRouteTables",
           "ec2:DescribeSecurityGroups",
           "ec2:DescribeSubnets",
           "ec2:DescribeVpcAttribute",
