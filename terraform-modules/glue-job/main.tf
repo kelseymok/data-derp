@@ -106,8 +106,6 @@ resource "aws_iam_policy" "glue" {
         "Action" : [
           "ec2:DescribeVpcEndpoints",
           "ec2:DescribeRouteTables",
-          "ec2:CreateNetworkInterface",
-          "ec2:DeleteNetworkInterface",
           "ec2:DescribeNetworkInterfaces",
           "ec2:DescribeSecurityGroups",
           "ec2:DescribeSubnets",
