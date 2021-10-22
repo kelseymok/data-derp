@@ -110,7 +110,7 @@ resource "aws_iam_policy" "job" {
           "logs:PutLogEvents"
         ],
         "Resource" : [
-          "arn:aws:logs:*:*:/aws-glue/jobs*",
+          "arn:aws:logs:*:*:/aws-glue/jobs/*",
           "${aws_cloudwatch_log_group.this.arn}:*"
         ]
       }
