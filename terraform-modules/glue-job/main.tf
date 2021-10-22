@@ -104,17 +104,6 @@ resource "aws_iam_policy" "glue" {
       {
         "Effect" : "Allow",
         "Action" : [
-          "iam:ListRolePolicies",
-          "iam:GetRole",
-          "iam:GetRolePolicy"
-        ],
-        "Resource" : [
-          aws_iam_role.this.arn
-        ]
-      },
-      {
-        "Effect" : "Allow",
-        "Action" : [
           "s3:GetBucketLocation",
           "s3:ListBucket",
           "s3:GetBucketAcl",
