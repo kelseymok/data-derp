@@ -63,26 +63,6 @@ resource "aws_iam_role_policy_attachment" "s3-full-access" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
 }
 
-// TODO: This should be further locked down
-data "aws_iam_policy_document" "kms" {
-  statement {
-    actions = [
-      "kms:Decrypt",
-      "kms:GenerateDataKey"
-    ]
-    resources = ["*"]
-  }
-}
-
-resource "aws_iam_policy" "kms" {
-  policy = data.aws_iam_policy_document.kms.json
-}
-
-resource "aws_iam_role_policy_attachment" "kms" {
-  role       = aws_iam_role.job.id
-  policy_arn = aws_iam_policy.kms.arn
-}
-
 resource "aws_iam_policy" "job" {
   name = "${var.project-name}-${var.module-name}-${var.submodule-name}-glue"
   policy = jsonencode({
