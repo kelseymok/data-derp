@@ -140,27 +140,6 @@ resource "aws_iam_policy" "glue" {
           "arn:aws:s3:::aws-glue-*/*",
           "arn:aws:s3:::*/*aws-glue-*/*"
         ]
-      },
-      {
-        "Effect" : "Allow",
-        "Action" : [
-          "s3:GetObject"
-        ],
-        "Resource" : [
-          "arn:aws:s3:::crawler-public*",
-          "arn:aws:s3:::aws-glue-*"
-        ]
-      },
-      {
-        "Effect" : "Allow",
-        "Action" : [
-          "logs:CreateLogGroup",
-          "logs:CreateLogStream",
-          "logs:PutLogEvents"
-        ],
-        "Resource" : [
-          "arn:aws:logs:*:*:/aws-glue/*"
-        ]
       }
     ]
   })
